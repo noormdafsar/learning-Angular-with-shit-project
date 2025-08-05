@@ -1,0 +1,62 @@
+<p class="text-xl font-semibold m-5 text-gray-800">Roles works!</p>
+
+<div class="mt-2 p-4 flex gap-1">
+    <input class="cursor-pointer border p-2 m-2" type = "text" [(ngModel)] = "firstName"/>
+    <input class="cursor-pointer border p-2 m-2" type = "text" [(ngModel)] = "lastName"/>
+    <input class="cursor-pointer border p-2 m-2" type = "text" [(ngModel)] = "Role"/>
+    <select class="border p-2 m-2" [(ngModel)] = "isActive">
+        <option value="true">true</option>
+        <option value="false">false</option>
+    </select><br><br> 
+    <select class="border p-2 m-2" [(ngModel)] = "state">
+        <option value = "Maharastra">Maharastra</option>
+        <option value = "Jharkhand">Jharkhand</option>
+        <option value = "Bihar">Bihar</option>
+    </select>
+</div>
+
+<div class="">
+    <ul>
+        <li *ngFor="let item of roleList">{{item.role}}</li>
+    </ul>
+</div>
+
+<div >
+    <select [(ngModel)]="selectedRoleId" class="border p-2 m-2">
+        <option *ngFor="let role of roleList" [value]="role.roleId">{{role.role}}</option>
+    </select>
+</div>
+
+<div class="flex flex-1/2 flex-col gap-4 m-6">
+ <button class="rounded-md border w-1/10 cursor-pointer bg-green-600" (click) = "showAlertMessageWithoutParameter()">Message without parameter</button>
+ <button class="rounded-md border w-1/12 cursor-pointer bg-amber-500" (click) = "showAlertMessageWithParameter('this is parameter')">Message with parameter</button>
+</div>
+
+<table class="table-auto w-full border-collapse border-8 border-gray-300 shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-blue-100 text-gray-700">
+        <tr class="bg-amber-500">
+            <th class="px-4 py-2 border border-gray-300 text-left">First Name</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Last Name</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Age</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Is Active</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">Current Date</th>
+            <th class="px-4 py-2 border border-gray-300 text-left">role</th>
+            <th class="">Selected State</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        <tr class="hover:bg-blue-50 transition">
+            <td class="px-4 py-2">{{firstName}}</td>
+            <td class="px-4 py-2">{{lastName}}</td>
+            <td class="px-4 py-2">{{age}}</td>
+            <td class="px-4 py-2">
+                <span class="{{isActive ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}}">
+                    {{isActive}}
+                </span>
+            </td>
+            <td class="px-4 py-2">{{currentDate}}</td>
+            <td class="px-4 py-2">{{selectedRoleName}}</td>
+            <td class="px-4 py-2">{{state}}</td>
+        </tr>
+    </tbody>
+</table>
