@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'
-import { IAPIResponseModel, IRole } from '../model/interface/role';
+import { IRole } from '../model/interface/role';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,9 +12,19 @@ import { CommonModule } from '@angular/common';
 })
 export default class RolesComponent implements OnInit {
 
-  public roleList : IRole [] = [];
+  firstName: string = "Nooruddin";
+  lastName: string = "Md Afsar"
+  age: number = 24;
+  isActive: boolean = true;
+  currentDate: Date = new Date();
+  Role: string = "software engineer";
+  inputType: string = "checkbox";
+  state: string = "West Bengal";
+  selectedRoleId: number = 1;
 
-  constructor(private _http: HttpClient){
+  public roleList: IRole[] = [];
+
+  constructor(private _http: HttpClient) {
 
   }
 
@@ -66,27 +76,17 @@ export default class RolesComponent implements OnInit {
     ]
   }
 
- firstName: string = "Nooruddin";
- lastName: string = "Md Afsar"
- age: number = 24;
- isActive: boolean = true;
- currentDate: Date = new Date();
- Role: string = "software engineer";
- inputType: string =  "checkbox";
- state: string = "West Bengal";
- selectedRoleId: number = 1;
+  showAlertMessageWithoutParameter() {
+    alert("This is my function without parameter, okay!")
+  }
 
- showAlertMessageWithoutParameter(){
-  alert("This is my function without parameter, okay!")
- }
+  showAlertMessageWithParameter(message: string) {
+    alert("This is my fucntion with parameter, Okay!");
+  }
 
- showAlertMessageWithParameter(message: string){
-  alert("This is my fucntion with parameter, Okay!");
- }
+  get selectedRoleName(): string {
+    const selected = this.roleList.find(r => r.roleId == this.selectedRoleId);
+    return selected ? selected.role : '';
+  }
 
- get selectedRoleName(): string{
-  const selected = this.roleList.find(r => r.roleId == this.selectedRoleId);
-  return selected? selected.role: '';
- }
- 
 }

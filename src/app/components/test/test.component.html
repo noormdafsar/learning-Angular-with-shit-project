@@ -1,0 +1,13 @@
+<p class="text-xl font-semibold m-5 text-gray-800">Just for test purpose!</p>
+<div class="flex flex-row gap-10 m-6 justify-between border border-gray-300 p-4 rounded-lg shadow-md w-full max-h-full">
+    <div class="border border-gray-300 p-4 rounded-lg shadow-md">
+        <!-- test1 component ko parent/test ka data bhej rahe hain aur child se change event le rahe hain -->
+        <app-test1 [searchTerm]="searchTerm" (searchTermChange)="onSearchTermChange($event)">
+        </app-test1>
+    </div>
+
+    <div class="border border-gray-300 p-4 rounded-lg shadow-md">
+        <!-- test2 ko parent/test ka data bhej rahe hain -->
+        <app-test2 [searchTerm]="searchTerm"></app-test2>
+    </div>
+</div>
