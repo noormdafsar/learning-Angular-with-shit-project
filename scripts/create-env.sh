@@ -2,6 +2,9 @@
 
 set -e
 
+ENV_FILE_DIR="src/environments"
+[ -d "$ENV_FILE_DIR" ] || mkdir -p "$ENV_FILE_DIR"
+
 FILE_PATH="src/environments/environment.prod.ts"
 
 echo "Preparing environment file..."
