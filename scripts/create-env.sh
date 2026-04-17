@@ -5,11 +5,15 @@ set -e
 ENV_FILE_DIR="src/environments"
 [ -d "$ENV_FILE_DIR" ] || mkdir -p "$ENV_FILE_DIR"
 
-ENV_FILE_PATH="src/environments/environment.ts"
+PROD_ENV_FILE_PATH="$ENV_FILE_DIR/environment.prod.ts"
+ENV_FILE_PATH="$ENV_FILE_DIR/environment.ts"
 
 echo "Preparing environment file..."
 
-cat <<EOF > $ENV_FILE_PATH
+# Create an dummy environment file if it doesn't exist, otherwise angular file replacement will fail
+[ -f "$ENV_FILE_PATH" ] || cat "$ENV_FILE_PATH"
+
+cat <<EOF > $PROD_ENV_FILE_PATH
 export const environment = {
   production: true,
   apiUrl: '${API_URL}',
