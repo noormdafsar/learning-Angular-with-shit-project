@@ -11,7 +11,7 @@ ENV_FILE_PATH="$ENV_FILE_DIR/environment.ts"
 echo "Preparing environment file..."
 
 # Create an dummy environment file if it doesn't exist, otherwise angular file replacement will fail
-[ -f "$ENV_FILE_PATH" ] || cat "$ENV_FILE_PATH"
+[ -f "$ENV_FILE_PATH" ] || touch "$ENV_FILE_PATH"
 
 cat <<EOF > $PROD_ENV_FILE_PATH
 export const environment = {
