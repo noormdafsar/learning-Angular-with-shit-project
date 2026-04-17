@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IEmpoyee } from '../model/interface/client';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-employee',
@@ -15,6 +16,7 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeData();
+    console.log(environment.apiUrl);
   }
 
 
