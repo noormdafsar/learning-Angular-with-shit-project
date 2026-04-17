@@ -24,6 +24,14 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
+      - name: Generate environment file
+        run: ./scripts/create-env.sh
+        env:
+            API_URL: ${{ secrets.API_URL }}
+            APP_TYPE: ${{ vars.APP_TYPE }}
+            APP_VERSION: ${{ vars.APP_VERSION }}
+            DEBUG_MODE: ${{ vars.DEBUG_MODE }}      
+
       - name: Build Project
         run: ng build --configuration production
 
