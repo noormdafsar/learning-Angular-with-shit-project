@@ -3,9 +3,9 @@ name: Angular CI/CD
 on:
   push:
     branches: ["main"]
-  schedule:
-      - cron: '*/5 * * * *' # Runs every 5 minutes
-      - cron: '0 0 * * *' # Runs daily at 12:00 AM UTC
+  # schedule: # here schedule time feature is not reliable because it not works on exact time defined in cron, so I will not use it for now, but you can use it if you want to run the workflow on schedule
+  #     - cron: '*/5 * * * *' # Runs every 5 minutes
+  #     - cron: '0 0 * * *' # Runs daily at 12:00 AM UTC
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 24*
           cache: 'npm'
 
       - name: Install Dependencies
