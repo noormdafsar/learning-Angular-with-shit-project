@@ -2,7 +2,7 @@ name: Angular CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   # schedule: # here schedule time feature is not reliable because it not works on exact time defined in cron, so I will not use it for now, but you can use it if you want to run the workflow on schedule
   #     - cron: '*/5 * * * *' # Runs every 5 minutes
   #     - cron: '0 0 * * *' # Runs daily at 12:00 AM UTC
@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:   
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 24*
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm ci
@@ -33,10 +33,10 @@ jobs:
       - name: Generate environment file
         run: ./scripts/create-env.sh
         env:
-            API_URL: ${{ vars.API_URL }}
-            APP_TYPE: ${{ vars.APP_TYPE }}
-            APP_VERSION: ${{ vars.APP_VERSION }}
-            DEBUG_MODE: ${{ vars.DEBUG_MODE }}      
+          API_URL: ${{ vars.API_URL }}
+          APP_TYPE: ${{ vars.APP_TYPE }}
+          APP_VERSION: ${{ vars.APP_VERSION }}
+          DEBUG_MODE: ${{ vars.DEBUG_MODE }}
 
       - name: Build Project
         run: ng build --configuration production
@@ -65,26 +65,37 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.USER_NAME }}  
+          username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.PASSWORD }}
           source: "dist/*"
           target: "/home/mini_server_01/noor"
 
-  notify:   # ADD HERE (same level as build & deploy)
-    needs: [build, deploy]
+  notify:
+    # ADD HERE (same level as build & deploy)
+    needs: [ build, deploy ]
     runs-on: ubuntu-latest
     if: always()
 
     steps:
+      - name: Debug results
+        run: |
+          echo "Build result: ${{ needs.build.result }}"
+          echo "Deploy result: ${{ needs.deploy.result }}"
+
       - name: Notify Slack
         run: |
-          if [ "${{ needs.build.result }}" != "success" ]; then
+          BUILD_RESULT="${{ needs.build.result }}"
+          DEPLOY_RESULT="${{ needs.deploy.result }}"
+
+          if [ "$BUILD_RESULT" != "success" ]; then
             STATUS="❌ Build Failed"
-          elif [ "${{ needs.deploy.result }}" != "success" ]; then
+          elif [ "$DEPLOY_RESULT" != "success" ]; then
             STATUS="❌ Deploy Failed"
           else
             STATUS="✅ Deployment Successful"
           fi
+
+          echo "Sending status: $STATUS"
 
           curl -X POST -H 'Content-type: application/json' \
           --data "{
