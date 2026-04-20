@@ -69,20 +69,25 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           source: "dist/*"
           target: "/home/mini_server_01/noor"
-      - name: Notify Slack (Success)
-        if: success()
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{
-          "text": "✅ Deployment Successful!\nRepo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
-          }' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Notify Slack (Failure)
-        if: failure()
+  notify:   # ADD HERE (same level as build & deploy)
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Notify Slack
         run: |
+          if [ "${{ needs.build.result }}" != "success" ]; then
+            STATUS="❌ Build Failed"
+          elif [ "${{ needs.deploy.result }}" != "success" ]; then
+            STATUS="❌ Deploy Failed"
+          else
+            STATUS="✅ Deployment Successful"
+          fi
+
           curl -X POST -H 'Content-type: application/json' \
-          --data '{
-          "text": "❌ Deployment Failed!\nRepo: ${{ github.repository }}"
-          }' \
+          --data "{
+            \"text\": \"$STATUS\nRepo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\"
+          }" \
           ${{ secrets.SLACK_WEBHOOK_URL }}
