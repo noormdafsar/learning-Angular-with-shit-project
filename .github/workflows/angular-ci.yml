@@ -1,4 +1,4 @@
-name: Angular CI/CD
+name: Learning Github Action CI/CD Pipeline
 
 on:
   push:
